@@ -32,29 +32,29 @@ function App() {
 
   const handleSave = () => {
     if(newCategory.categoryName !== ''){
-      axios.post('/api/category',{
-        categoryName: newCategory.categoryName
+          axios.post('/api/category',{
+          categoryName: newCategory.categoryName
       }).then( response => setCategory([...category, response.data]))
-      .catch(err => console.log(err))
+        .catch(err => console.log(err))
     }
     setNewCategory({})
   }
 
   const handleEdit = () => {
      if(newCategory._id !== '') {
-      axios.patch(`/api/category/${newCategory._id}`,{
-      categoryName: newCategory.categoryName
+          axios.patch(`/api/category/${newCategory._id}`,{
+          categoryName: newCategory.categoryName
     }).then(response => {
-        deleteFromList(newCategory._id, category)
-        setCategory([response.data, ...category])
+          deleteFromList(newCategory._id, category)
+          setCategory([response.data, ...category])
       if(response.ok){
-        category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+         category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
       }
-      setNewCategory({categoryName: ''})
+          setNewCategory({categoryName: ''})
     }).then(setCategory(category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))))
-    .catch(err => console.log(err))}
-    setNewCategory({})
-    setEditCategory(false)
+      .catch(err => console.log(err))}
+          setNewCategory({})
+          setEditCategory(false)
   }
 
   console.log('ORDEMMM', category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)))
