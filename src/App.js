@@ -1,7 +1,73 @@
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios'
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [category, setCategory] = useState([])
+  const [newCategory, setNewCategory] = useState({})
+  const [editCategory, setEditCategory] = useState(false)
+    
+  useEffect(() => {
+    getData()
+  }, [])
+  
+ const getData = () => axios.get('/api/category').then(res => {
+    const dados = res.data
+    setCategory(dados)
+  })
+     
+  const handleDelete = (item) => {
+    const del = item.target.value
+    axios.delete(`/api/category/${del}`).then(() => {
+      const indexCategory = category.findIndex(item => item._id === del)
+      category.splice(indexCategory, 1)
+      setCategory([...category])
+    }).catch(err => console.log(err))
+  }
+
+  const handleSave = () => {
+    if(newCategory !== ''){
+      axios.post('/api/category',{
+        categoryName: newCategory.categoryName
+      }).then( response => setCategory([...category, response.data]))
+      .catch(err => console.log(err))
+    }
+  }
+
+  const handleEdit = () => {
+    console.log(newCategory)
+    // if(newCategory._id !== '') return
+    axios.patch(`/api/category/${newCategory._id}`,{
+      categoryName: newCategory.categoryName
+    }).then(response => {
+      console.log(response.data)
+      setCategory([response.data, ...category])
+      if(response.ok){
+        category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+      }
+      
+    }).then(setCategory(category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))))
+    .catch(err => console.log(err))
+    setNewCategory({})
+    setEditCategory(false)
+  }
+
+  useEffect(() => {
+    category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+  }, [editCategory])
+
+  console.log('ORDEMMM', category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)))
+  const handleEditCategory = (item) => {
+    setEditCategory(true)
+    const id = item.target.value
+    const findItem = category.find(item => item._id.includes(id))
+    setNewCategory(findItem)
+  }
+  console.log(newCategory)
+  const divStyle = {
+    display: 'flex'
+  }
   return (
     <div className="App">
       <header className="App-header">
@@ -18,8 +84,20 @@ function App() {
           Learn React
         </a>
       </header>
+      <input type='text' value={newCategory.categoryName} onChange={e => setNewCategory({...newCategory,['categoryName'] : e.target.value})} />
+      <button onClick={editCategory ? handleEdit : handleSave}>{editCategory ? 'Editar' : 'Salvar'}</button>
+      
+
+      {category && category.map((item) =>
+         (<div style={divStyle}>
+            <p>{item._id}</p>
+            <h3>{item.categoryName}</h3>
+            <button value={item._id} onClick={handleDelete}>delete</button>
+            <button value={item._id} onClick={handleEditCategory}>Editar</button>
+         </div>)
+      )}
     </div>
   );
 }
 
-export default App;
+export default App
