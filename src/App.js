@@ -1,23 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
-import axios from 'axios'
 import { useState } from 'react';
 import { useGetAll } from './hooks/useGetAll';
-import { handleCreate, handleDelete } from './utils/crud';
+import { handleCreate, handleDelete, handleEdit, selectedForEditing } from './utils/crud';
 
 
 function App() {
+  const endpointCategory = '/api/category/'
+  const endpointSubcategory = '/api/subcategory/'
   
-  const [category, setCategory] = useGetAll('/api/category')
+  const [category, setCategory] = useGetAll(endpointCategory)
   const [newCategory, setNewCategory] = useState({categoryName:''})
   const [editCategory, setEditCategory] = useState(false)
   const [chosenCategory, setChosenCategory] = useState('')
 
-  const endpointCategory = '/api/category/'
-
-  const deleteFromList = (id, arr) => {
-    const indexCategory = arr.findIndex(item => item._id === id)
-      arr.splice(indexCategory, 1)}
+  const [subcategory, setSubcategory] = useGetAll(endpointSubcategory)
+  const [newSubcategory, setNewSubcategory] = useState({category:'', subcategory:''})
+  const [editSubcategory, setEditSubcategory] = useState(false)
      
   const createCategory = () => {
     handleCreate( endpointCategory,
@@ -27,29 +26,14 @@ function App() {
     setNewCategory({ categoryName: '', _id: '', updatedAt: '' })
   } 
 
-  const handleEdit = () => {
-     if(newCategory._id !== '') {
-          axios.patch(`/api/category/${newCategory._id}`,{
-          categoryName: newCategory.categoryName
-    }).then(response => {
-          deleteFromList(newCategory._id, category)
-          setCategory([response.data, ...category])
-      if(response.ok){
-         category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-      }
-          setNewCategory({categoryName: ''})
-    }).then(setCategory(category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))))
-      .catch(err => console.log(err))}
-          setNewCategory({})
-          setEditCategory(false)
+  const editCategoryItem = () => {
+    handleEdit(endpointCategory, newCategory._id,
+      { categoryName: newCategory.categoryName },
+      category, setCategory, setEditCategory)
+
+      setNewCategory({ categoryName: '', _id: '', updatedAt: '' })  
   }
 
-  const handleEditCategory = (item) => {
-    setEditCategory(true)
-    const id = item.target.value
-    const findItem = category.find(item => item._id.includes(id))
-    setNewCategory(findItem)
-  }
   const divStyle = {
     display: 'flex'
   }
@@ -71,7 +55,11 @@ function App() {
         </a>
       </header>
       <input type='text' required={+true} value={newCategory.categoryName} onChange={e => setNewCategory({...newCategory, categoryName : e.target.value})} />
-      <button onClick={editCategory ? handleEdit : createCategory}>{editCategory ? 'Editar' : 'Salvar'}</button>
+      <button onClick={editCategory 
+        ? editCategoryItem 
+        : createCategory}>
+          {editCategory ? 'Editar' : 'Salvar'}
+      </button>
       
       <p>item escolhido: {chosenCategory}</p>
       {category && category.map((item) =>
@@ -79,7 +67,15 @@ function App() {
             <p>{item._id}</p>
             <h3 id={item._id} onClick={e => setChosenCategory(e.target.id)}>{item.categoryName}</h3>
             <button value={item._id} onClick={e => handleDelete(e, endpointCategory, category, setCategory)}>delete</button>
-            <button value={item._id} onClick={handleEditCategory}>Editar</button>
+            <button value={item._id} onClick={e => selectedForEditing(e, setEditCategory, category, setNewCategory)}>Editar</button>
+         </div>)
+      )}
+      {subcategory && subcategory.map((item) =>
+         (<div style={divStyle} key={item._id}>
+            <p>{item.category}</p>
+            <h3 id={item._id} onClick={e => setChosenCategory(e.target.id)}>{item.subcategory}</h3>
+            <button value={item._id} onClick={e => handleDelete(e, endpointCategory, category, setCategory)}>delete</button>
+            <button value={item._id} onClick={e => selectedForEditing(e, setEditCategory, category, setNewCategory)}>Editar</button>
          </div>)
       )}
     </div>

@@ -18,3 +18,23 @@ import axios from 'axios'
         .then( response => setState([...state, response.data]))
         .catch(err => console.log(err))
   }
+
+  export const handleEdit = (endpoint, id, obj, state, setState, setTrueEditing) => {
+    if(id !== '') {
+         axios.patch(`${endpoint}${id}`, obj)
+         .then(response => {
+         deleteFromList(id, state)
+         setState([response.data, ...state])
+     if(response.ok){
+        state.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+     }
+     setTrueEditing(false)
+   }).catch(err => console.log(err))}
+ }
+
+ export const selectedForEditing = (event, setTrueEditing, state, setNewItem) => {
+  setTrueEditing(true)
+  const id = event.target.value
+  const findItem = state.find(item => item._id.includes(id))
+  setNewItem(findItem)
+}
