@@ -1,44 +1,45 @@
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useGetAll } from './hooks/useGetAll';
+import { handleCreate, handleDelete } from './utils/crud';
+
 
 function App() {
-  const [category, setCategory] = useState([])
+  
+  const [category, setCategory] = useGetAll('/api/category')
   const [newCategory, setNewCategory] = useState({categoryName:''})
   const [editCategory, setEditCategory] = useState(false)
-    
-  useEffect(() => {
-    getData()
-  }, [])
-  
- const getData = () => axios.get('/api/category').then(res => {
-    const dados = res.data
-    setCategory(dados)
-  }).catch(err => console.log(err))
+  const [chosenCategory, setChosenCategory] = useState('')
+
+  const endpointCategory = '/api/category/'
 
   const deleteFromList = (id, arr) => {
     const indexCategory = arr.findIndex(item => item._id === id)
-      arr.splice(indexCategory, 1)
-  }
+      arr.splice(indexCategory, 1)}
      
-  const handleDelete = (item) => {
-    const id = item.target.value
-    axios.delete(`/api/category/${id}`).then(() => {
-      deleteFromList(id, category)
-      setCategory([...category])
-    }).catch(err => console.log(err))
-  }
+  // const handleSave = () => {
+  //   if(newCategory.categoryName !== ''){
+  //         axios.post('/api/category',{
+  //         categoryName: newCategory.categoryName
+  //     }).then( response => setCategory([...category, response.data]))
+  //       .catch(err => console.log(err))
+  //   }
+  //   setNewCategory({})
+  // }
 
-  const handleSave = () => {
-    if(newCategory.categoryName !== ''){
-          axios.post('/api/category',{
-          categoryName: newCategory.categoryName
-      }).then( response => setCategory([...category, response.data]))
-        .catch(err => console.log(err))
-    }
-    setNewCategory({})
-  }
+  const createCategory = () => {
+    handleCreate( endpointCategory,
+      { categoryName: newCategory.categoryName },
+      category, setCategory)
+    
+    setNewCategory({
+      categoryName: '',
+      _id: '',
+      updatedAt: ''
+    })
+  } 
 
   const handleEdit = () => {
      if(newCategory._id !== '') {
@@ -57,17 +58,16 @@ function App() {
           setEditCategory(false)
   }
 
-  console.log('ORDEMMM', category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)))
   const handleEditCategory = (item) => {
     setEditCategory(true)
     const id = item.target.value
     const findItem = category.find(item => item._id.includes(id))
     setNewCategory(findItem)
   }
-  console.log(newCategory)
   const divStyle = {
     display: 'flex'
   }
+  category.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
   return (
     <div className="App">
       <header className="App-header">
@@ -85,14 +85,14 @@ function App() {
         </a>
       </header>
       <input type='text' required={+true} value={newCategory.categoryName} onChange={e => setNewCategory({...newCategory, categoryName : e.target.value})} />
-      <button onClick={editCategory ? handleEdit : handleSave}>{editCategory ? 'Editar' : 'Salvar'}</button>
+      <button onClick={editCategory ? handleEdit : createCategory}>{editCategory ? 'Editar' : 'Salvar'}</button>
       
-
+      <p>item escolhido: {chosenCategory}</p>
       {category && category.map((item) =>
-         (<div style={divStyle}>
+         (<div style={divStyle} key={item._id}>
             <p>{item._id}</p>
-            <h3>{item.categoryName}</h3>
-            <button value={item._id} onClick={handleDelete}>delete</button>
+            <h3 id={item._id} onClick={e => setChosenCategory(e.target.id)}>{item.categoryName}</h3>
+            <button value={item._id} onClick={e => handleDelete(e, endpointCategory, category, setCategory)}>delete</button>
             <button value={item._id} onClick={handleEditCategory}>Editar</button>
          </div>)
       )}
