@@ -15,7 +15,12 @@ import axios from 'axios'
 
   export const handleCreate = (endpoint, obj, state, setState) => {
         axios.post(endpoint, obj)
-        .then( response => setState([...state, response.data]))
+        .then( response =>{ 
+          setState([...state, response.data])
+          if(response.ok){
+            state.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+         }
+        })
         .catch(err => console.log(err))
   }
 
