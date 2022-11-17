@@ -19,26 +19,12 @@ function App() {
     const indexCategory = arr.findIndex(item => item._id === id)
       arr.splice(indexCategory, 1)}
      
-  // const handleSave = () => {
-  //   if(newCategory.categoryName !== ''){
-  //         axios.post('/api/category',{
-  //         categoryName: newCategory.categoryName
-  //     }).then( response => setCategory([...category, response.data]))
-  //       .catch(err => console.log(err))
-  //   }
-  //   setNewCategory({})
-  // }
-
   const createCategory = () => {
     handleCreate( endpointCategory,
       { categoryName: newCategory.categoryName },
       category, setCategory)
     
-    setNewCategory({
-      categoryName: '',
-      _id: '',
-      updatedAt: ''
-    })
+    setNewCategory({ categoryName: '', _id: '', updatedAt: '' })
   } 
 
   const handleEdit = () => {
