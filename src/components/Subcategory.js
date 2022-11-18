@@ -30,22 +30,24 @@ export const Subcategory = ({subcategory, setSubcategory, chosen, setChosen}) =>
 
     return(
         <div>
-        <input type='text' required={+true} value={newSubcategory.subcategory} onChange={e => setNewSubcategory({...newSubcategory, subcategory : e.target.value})} />
-        <button onClick={editSubcategory 
-          ? editSubcategoryItem 
-          : createSubcategory}>
-            {editSubcategory ? 'Editar' : 'Salvar'}
-        </button>
-        {subcategory && showSubcategory.map((item) =>
-           (<div key={item._id}>
-              <p>{item.category}</p>
-              <h3 id={item.subcategory} onClick={e => setChosen({...chosen, subcategory: e.target.id})}>{item.subcategory}</h3>
-              <button value={item._id} onClick={e => handleDelete(e, endpointSubcategory, subcategory, setSubcategory)}>
-                  delete
-              </button>
-              <button value={item._id} onClick={e => selectedForEditing(e, setEditSubcategory, subcategory, setNewSubcategory)}>Editar</button>
-           </div>)
-        )}
+            <input type='text' required={+true} value={newSubcategory.subcategory} onChange={e => setNewSubcategory({...newSubcategory, subcategory : e.target.value})} />
+            <button onClick={editSubcategory 
+                ? editSubcategoryItem 
+                : createSubcategory}>
+                {editSubcategory ? 'Editar' : 'Salvar'}
+            </button>
+            <ul>
+                {subcategory && showSubcategory.map((item) => (
+                    <li key={item._id}>
+                        <p>{item.category}</p>
+                        <h3 id={item.subcategory} onClick={e => setChosen({...chosen, subcategory: e.target.id})}>{item.subcategory}</h3>
+                        <button value={item._id} onClick={e => handleDelete(e, endpointSubcategory, subcategory, setSubcategory)}>
+                            delete
+                        </button>
+                        <button value={item._id} onClick={e => selectedForEditing(e, setEditSubcategory, subcategory, setNewSubcategory)}>Editar</button>
+                    </li>)
+                )}
+            </ul>
         </div>
     )
 }
