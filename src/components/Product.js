@@ -33,9 +33,7 @@ export const Product = ({product, setProduct, chosen, setChosen}) => {
         item.subcategory.includes(chosen.subcategory)
         })
    
-     console.log('show', showProduct)
-     console.log('category:', chosen.category, 'subcategory:', chosen.subcategory)
-    // showProduct.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+     showProduct && showProduct.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
 
     return(
         <div>
