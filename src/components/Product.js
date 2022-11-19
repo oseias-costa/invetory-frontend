@@ -27,12 +27,14 @@ export const Product = ({product, setProduct, chosen, setChosen}) => {
           setNewProduct({ product: '', _id: '', updatedAt: '' })  
       }
       
-    const showProduct = product.find(item => item.category == chosen.category) ? product?.filter(item => {
-        item.category.includes(chosen.category) &&
+    const showProduct = 
+        product.filter(item => {
+        return item.category.includes(chosen.category) &&
         item.subcategory.includes(chosen.subcategory)
-        } 
-    ) : ''
-     
+        })
+   
+     console.log('show', showProduct)
+     console.log('category:', chosen.category, 'subcategory:', chosen.subcategory)
     // showProduct.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
 
     return(
@@ -43,7 +45,7 @@ export const Product = ({product, setProduct, chosen, setChosen}) => {
           : createProduct}>
             {editProduct ? 'Editar' : 'Salvar'}
         </button>
-        {/* {product && showProduct.map((item) =>
+        {chosen.subcategory !== undefined && showProduct.map((item) =>
            (<div key={item._id}>
               <p>{item.category}</p>
               <p>{item.subcategory}</p>
@@ -53,7 +55,7 @@ export const Product = ({product, setProduct, chosen, setChosen}) => {
               </button>
               <button value={item._id} onClick={e => selectedForEditing(e, setEditProduct, product, setNewProduct)}>Editar</button>
            </div>)
-        )} */}
+        )}
         </div>
     )
 }

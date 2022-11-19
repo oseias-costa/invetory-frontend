@@ -36,6 +36,7 @@ export const Subcategory = ({subcategory, setSubcategory, chosen, setChosen}) =>
                 : createSubcategory}>
                 {editSubcategory ? 'Editar' : 'Salvar'}
             </button>
+            <p>item escolhido: {chosen.subcategory}</p>
             <ul>
                 {subcategory && showSubcategory.map((item) => (
                     <li key={item._id}>
