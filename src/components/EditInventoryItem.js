@@ -3,14 +3,23 @@ import { ProductContext } from "../context/ProductContext"
 import { Button } from "../styles/global/components/Button"
 import { InputItens } from "../styles/global/components/InputItens"
 import { SelectItem } from "../styles/global/components/SelectItem"
-import { handleCreate } from "../utils/crud"
+import { Subtitle } from "../styles/global/components/Subtitle"
+import { handleEdit } from "../utils/crud"
 
-export const InventoryItem = ({inventory, setInventory}) => {
+export const EditInventoryItem = ({setInventory, selectedItem, inventory}) => {
+    const filterSelected = inventory?.find(item => item._id === selectedItem?.id)
+    
     const { category, subcategory, product } = useContext(ProductContext)
-    const [ chosen, setChosen ] = useState({category:'', subcategory:'', product:''})
+    const [ chosen, setChosen ] = useState({...filterSelected})
+    const [ editing, setEditing ] = useState(true)
+    
+    delete chosen.total
+    delete chosen._id
+    delete chosen.updatedAt
+    delete chosen.createdAt
 
     const endpoint = '/api/inventory/'
-
+        console.log(chosen)
     const filterSubcategory = subcategory?.filter(item => item.category === chosen.category)
     const filterProduct = product?.filter(item => {
         return item.category === chosen.category &&
@@ -18,13 +27,14 @@ export const InventoryItem = ({inventory, setInventory}) => {
             }
     )
     
-    const addNewItem = () => {
-        handleCreate(endpoint, {...chosen}, inventory, setInventory)
+    const EditItem = () => {
+        handleEdit(endpoint, filterSelected._id, {...chosen}, inventory, setInventory, setEditing)
     }
 
     return(
         <div>
-            <SelectItem value={chosen.category} onChange={e => setChosen({category: e.target.value})}>
+            <Subtitle>Editar Item</Subtitle>
+            <SelectItem value={chosen.category} onChange={e => setChosen({...chosen, category: e.target.value})}>
                 <option value=''>Categoria</option>
                 {category !== undefined && category.map(item => (
                      <option>{item.categoryName}</option>
@@ -67,7 +77,7 @@ export const InventoryItem = ({inventory, setInventory}) => {
                 placeholder='Preço de Venda'
                 onChange={e => setChosen({...chosen, salePrice: e.target.value})} 
             />
-            <Button onClick={addNewItem}>Adicionar</Button>
+            <Button onClick={EditItem}>Editar</Button>
         </div>
     )
 }

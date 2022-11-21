@@ -1,18 +1,17 @@
 import { MdChecklistRtl } from "react-icons/md"
 import { Section } from "../styles/global/components/Section"
 import { TopPage } from "../styles/global/components/TopPage"
-import { Subtitle } from "../styles/global/components/Subtitle";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../context/ProductContext";
 import { TableInventory } from "../components/TableInventory";
-import { InventoryItem } from "../components/InventoryItem";
+import { AddInventoryItem, InventoryItem } from "../components/AddInventoryItem";
+import { NavLink, Route, Router, Routes } from "react-router-dom";
+import { EditInventoryItem } from "../components/EditInventoryItem";
 
 export const Inventory = () => {
     const { inventory, setInventory } = useContext(ProductContext)  
     const [ inventorySelected, setInventorySelected] = useState({})
     const [ selectedItem, setselectedItem] = useState()
-
-    console.log(selectedItem)
 
     return(
         <Section>
@@ -20,9 +19,19 @@ export const Inventory = () => {
                 <MdChecklistRtl />
                 <h2>Estoque</h2>
             </TopPage>
-            <Subtitle>Estoque Mensal</Subtitle>
-            <InventoryItem setInventory={setInventory} inventory={inventory} />
-            <TableInventory inventory={inventory} selectedItem={selectedItem} setselectedItem={setselectedItem} />
+            <NavLink to='/Estoque/'>Estoque</NavLink>
+            <NavLink to='/Estoque/Adicionar'>Adicionar</NavLink>
+            <NavLink to='/Estoque/Editar'>Editar</NavLink>
+                <Routes>
+                    <Route path='/' element={
+                        <TableInventory inventory={inventory} selectedItem={selectedItem} setselectedItem={setselectedItem} />} />
+                    <Route path='/Adicionar' element={
+                        <AddInventoryItem setInventory={setInventory} inventory={inventory} />} />
+                    <Route path='/Editar' element={
+                        <EditInventoryItem selectedItem={selectedItem} inventory={inventory} setselectedItem={setselectedItem} />} />
+                    <Route path='/Movimentar' />
+                </Routes>  
+            
         </Section>
     )
 }

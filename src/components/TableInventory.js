@@ -1,8 +1,11 @@
+import { Subtitle } from "../styles/global/components/Subtitle";
 import { Table } from "../styles/global/components/Table";
 
 export const TableInventory = ({inventory, selectedItem, setselectedItem}) => {
 
     return(
+        <>
+        <Subtitle>Estoque Mensal</Subtitle>
         <Table>
         <thead>
             <tr>
@@ -41,5 +44,6 @@ export const TableInventory = ({inventory, selectedItem, setselectedItem}) => {
             ))}
         </tbody>
     </Table>
+    </>
     )
 }

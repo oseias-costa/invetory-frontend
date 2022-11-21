@@ -18,7 +18,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Dasboard />} />
             <Route path='/Produtos' element={<ProductManager />} />
-            <Route path='/Estoque' element={<Inventory />} />
+            <Route path='/Estoque/*' element={<Inventory />} />
           </Routes>
         </BrowserRouter>
       </ProductProvider>

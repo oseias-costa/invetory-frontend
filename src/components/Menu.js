@@ -16,28 +16,16 @@ export const Menu = () => {
             <nav>
                 <ul>
                     <LinkMenu>
-                        <NavLink to='/Inicio'>
-                            <MdDashboard />
-                            Início
-                        </NavLink>
+                        <NavLink to='/Inicio'><MdDashboard />Início</NavLink>
                     </LinkMenu>
                     <LinkMenu>
-                        <NavLink to='/Produtos'>
-                            <GiSofa />
-                            Produtos
-                        </NavLink>
+                        <NavLink to='/Produtos'><GiSofa />Produtos</NavLink>
                     </LinkMenu>
                     <LinkMenu>
-                        <NavLink to='/Estoque'>
-                            <MdChecklistRtl />
-                            Estoque
-                        </NavLink>
+                        <NavLink to='/Estoque'><MdChecklistRtl />Estoque</NavLink>
                     </LinkMenu>
                     <LinkMenu>
-                        <NavLink to='/Vendas'>
-                            <MdShoppingCart />
-                            Vendas
-                        </NavLink>
+                        <NavLink to='/Vendas'><MdShoppingCart />Vendas</NavLink>
                     </LinkMenu>
                 </ul>
             </nav>
