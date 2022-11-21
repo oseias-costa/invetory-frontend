@@ -1,13 +1,22 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AiFillCheckCircle } from 'react-icons/ai';
+import { MdAddCircle } from 'react-icons/md';
+import { ProductContext } from '../context/ProductContext';
+import { Subtitle } from '../styles/global/components/Subtitle';
+import { ProdItensButton } from '../styles/ProductsManager/ProdItensButton';
+import { ProductInput, ProductInputButton } from '../styles/ProductsManager/ProductInput';
+import { ProductItem } from '../styles/ProductsManager/ProductItem';
 import { handleCreate, handleDelete, handleEdit, selectedForEditing } from '../utils/crud';
 
-export const Product = ({product, setProduct, chosen, setChosen}) => {
+export const Product = ({chosen, setChosen}) => {
+    const { product, setProduct } = useContext(ProductContext)
     const [newProduct, setNewProduct] = useState({product:''})
     const [editProduct, setEditProduct] = useState(false)
 
     const endpointProduct = '/api/product/'
 
     const createProduct = () => {
+        if(newProduct.product !== ''){
         handleCreate(endpointProduct, {
             category: chosen.category,
             subcategory: chosen.subcategory,
@@ -15,9 +24,11 @@ export const Product = ({product, setProduct, chosen, setChosen}) => {
             product, setProduct)
         setNewProduct({ 
             category: '', subcategory: '', product: '', _id: '', updatedAt: '' })
+        }
     }
 
     const editProductItem = () => {
+        if(newProduct.product !== ''){
         handleEdit(endpointProduct, newProduct._id,{
             category: chosen.category, 
             subcategory: chosen.subcategory,
@@ -25,34 +36,60 @@ export const Product = ({product, setProduct, chosen, setChosen}) => {
             product, setProduct, setEditProduct)
     
           setNewProduct({ product: '', _id: '', updatedAt: '' })  
+        }
       }
       
-    const showProduct = 
+    const showProduct = product !== undefined && 
         product.filter(item => {
         return item.category.includes(chosen.category) &&
         item.subcategory.includes(chosen.subcategory)
         })
+    
+        const ItemSelected = (item) => {
+            return chosen.product && chosen.product === item.product 
+             ? 'ButtonActiv' : 'hidden'
+           }
    
      showProduct && showProduct.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
 
     return(
         <div>
-        <input type='text' required={+true} value={newProduct.product} onChange={e => setNewProduct({...newProduct, product : e.target.value})} />
-        <button onClick={editProduct 
+        <Subtitle>Produto</Subtitle>
+        <ProductInput 
+            type='text' 
+            required={+true} 
+            placeholder='Adicionar'
+            value={newProduct.product} 
+            onChange={e => setNewProduct({...newProduct, product : e.target.value})} 
+        />
+        <ProductInputButton onClick={editProduct 
           ? editProductItem 
           : createProduct}>
-            {editProduct ? 'Editar' : 'Salvar'}
-        </button>
-        {chosen.subcategory !== undefined && showProduct.map((item) =>
-           (<div key={item._id}>
-              <p>{item.category}</p>
-              <p>{item.subcategory}</p>
-              <h3>{item.product}</h3>
-              <button value={item._id} onClick={e => handleDelete(e, endpointProduct, product, setProduct)}>
+            {editProduct ? <AiFillCheckCircle /> : <MdAddCircle />}
+        </ProductInputButton>
+        {chosen.subcategory !== undefined 
+        && product !== undefined
+        && showProduct.map((item) =>
+           (<ProductItem key={item._id}>
+              <ProdItensButton
+                id={item.product} 
+                className={chosen.product === item.product ? 'ItemActive' : ''}
+                onClick={e => setChosen({...chosen, product: e.target.id})}
+                >{item.product}
+              </ProdItensButton>
+
+              <button 
+                  className={ItemSelected(item)} 
+                  value={item._id} onClick={e => handleDelete(e, endpointProduct, product, setProduct)}>
                   delete
               </button>
-              <button value={item._id} onClick={e => selectedForEditing(e, setEditProduct, product, setNewProduct)}>Editar</button>
-           </div>)
+              <button 
+                 className={ItemSelected(item)} 
+                 value={item._id} onClick={e => selectedForEditing(e, setEditProduct, product, setNewProduct)}>
+                 Editar
+             </button>
+
+           </ProductItem>)
         )}
         </div>
     )

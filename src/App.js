@@ -1,21 +1,28 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Menu } from './components/Menu';
+import ProductProvider from './context/ProductContext';
 import { Dasboard } from './pages/Dashboard';
+import { Inventory } from './pages/Inventory';
 import { ProductManager } from './pages/ProductManager';
+import { AppStyle } from './styles/global/AppStyle';
 import { GlobalTheme } from './styles/global/GlobalTheme'
 
 function App() {
   
   return (
-    <GlobalTheme>
-      <BrowserRouter>
-        <Menu />
-        <Routes>
-          <Route path='/' element={<Dasboard />} />
-          <Route path='/Produtos' element={<ProductManager />} />
-        </Routes>
-      </BrowserRouter>
-    </GlobalTheme>
+    <AppStyle>
+      <ProductProvider>
+        <BrowserRouter>
+          <GlobalTheme />
+          <Menu />
+          <Routes>
+            <Route path='/' element={<Dasboard />} />
+            <Route path='/Produtos' element={<ProductManager />} />
+            <Route path='/Estoque' element={<Inventory />} />
+          </Routes>
+        </BrowserRouter>
+      </ProductProvider>
+    </AppStyle>
   );
 }
 

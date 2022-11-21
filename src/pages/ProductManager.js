@@ -3,29 +3,33 @@ import { useGetAll } from '../hooks/useGetAll';
 import { Category } from '../components/Category';
 import { Subcategory } from '../components/Subcategory';
 import { Product } from '../components/Product';
-import { Section } from '../styles/ProductsManager/ProductManagerStyle';
+import { ProductColumns, Section } from '../styles/ProductsManager/ProductManagerStyle';
+import { GiSofa } from 'react-icons/gi';
+import { TopPage } from '../styles/global/components/TopPage';
 
 export const ProductManager = () => {
-    
-    const [category, setCategory] = useGetAll('/api/category/')
-    const [subcategory, setSubcategory] = useGetAll('/api/subcategory/')
-    const [product, setProduct] = useGetAll('/api/product/')
     const [chosen, setChosen] = useState({category:'', subcategory:'', product:''})
     
     return (
       <Section>
-        <Category 
-          category={category} setCategory={setCategory} 
-          chosen={chosen} setChosen={setChosen}
-        />
-        <Subcategory 
-          subcategory={subcategory} setSubcategory={setSubcategory}
-          chosen={chosen} setChosen={setChosen}
-        />
-        <Product 
-          product={product} setProduct={setProduct}
-          chosen={chosen} setChosen={setChosen}
-        />
+        <TopPage>
+         <GiSofa />
+         <h2>Produtos</h2>
+        </TopPage> 
+        <ProductColumns>
+          <Category 
+            chosen={chosen} 
+            setChosen={setChosen}
+          />
+          <Subcategory 
+            chosen={chosen}
+            setChosen={setChosen}
+          />
+          <Product 
+            chosen={chosen} 
+            setChosen={setChosen}
+          />
+      </ProductColumns>
       </Section>
     );
     
