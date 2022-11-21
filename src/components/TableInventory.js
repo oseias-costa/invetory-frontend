@@ -1,10 +1,12 @@
 import { Table } from "../styles/global/components/Table";
 
-export const TableInventory = ({inventory}) => {
+export const TableInventory = ({inventory, selectedItem, setselectedItem}) => {
+
     return(
         <Table>
         <thead>
             <tr>
+                <td>::</td>
                 <td>Categoria</td>
                 <td>Subtegoria</td>
                 <td>Produto</td>
@@ -19,6 +21,13 @@ export const TableInventory = ({inventory}) => {
         <tbody>
             {inventory && inventory.map(item => (
                 <tr key={item._id}>
+                    <td><input 
+                            type='checkbox' 
+                            value={item._id} 
+                            onChange={e => setselectedItem({id: e.target.value})}
+                            checked={item._id === selectedItem?.id}
+                        />
+                    </td>
                     <td>{item.category}</td>
                     <td>{item.subcategory}</td>
                     <td>{item.product}</td>

@@ -10,6 +10,9 @@ import { InventoryItem } from "../components/InventoryItem";
 export const Inventory = () => {
     const { inventory, setInventory } = useContext(ProductContext)  
     const [ inventorySelected, setInventorySelected] = useState({})
+    const [ selectedItem, setselectedItem] = useState()
+
+    console.log(selectedItem)
 
     return(
         <Section>
@@ -18,8 +21,8 @@ export const Inventory = () => {
                 <h2>Estoque</h2>
             </TopPage>
             <Subtitle>Estoque Mensal</Subtitle>
-            <InventoryItem setInventory={setInventory} inventory={inventory}/>
-            <TableInventory inventory={inventory} />
+            <InventoryItem setInventory={setInventory} inventory={inventory} />
+            <TableInventory inventory={inventory} selectedItem={selectedItem} setselectedItem={setselectedItem} />
         </Section>
     )
 }
