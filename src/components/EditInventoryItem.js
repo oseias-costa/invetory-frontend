@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { ProductContext } from "../context/ProductContext"
 import { Button } from "../styles/global/components/Button"
 import { InputItens } from "../styles/global/components/InputItens"
@@ -13,13 +13,12 @@ export const EditInventoryItem = ({setInventory, selectedItem, inventory}) => {
     const [ chosen, setChosen ] = useState({...filterSelected})
     const [ editing, setEditing ] = useState(true)
     
-    delete chosen.total
-    delete chosen._id
-    delete chosen.updatedAt
-    delete chosen.createdAt
+    const dontSaveDb = ['total', '_id', 'updatedAt', 'createdAt', '__v']
+    const deleteItens = (dontSaveDb, obj) => dontSaveDb.map(item => delete obj[item])
+    deleteItens(dontSaveDb, chosen)
 
     const endpoint = '/api/inventory/'
-        console.log(chosen)
+
     const filterSubcategory = subcategory?.filter(item => item.category === chosen.category)
     const filterProduct = product?.filter(item => {
         return item.category === chosen.category &&
