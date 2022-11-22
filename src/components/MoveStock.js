@@ -27,10 +27,7 @@ export const MoveStock = ({ setInventory, selectedItem, inventory, setselectedIt
             item.subcategory === chosen.subcategory
         }
     )
-    const reduce = 
-    console.log('moveeeeee', selectedItem.amount - chosen.amount)
-
-    
+     
 
     console.log(selectedItem)
     const moveItem = () => {
