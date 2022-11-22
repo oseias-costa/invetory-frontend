@@ -7,38 +7,53 @@ import { SelectItem } from "../styles/global/components/SelectItem"
 import { Subtitle } from "../styles/global/components/Subtitle"
 import { handleEdit } from "../utils/crud"
 
-export const EditInventoryItem = ({ setInventory, selectedItem, inventory, setselectedItem }) => {
+export const MoveStock = ({ setInventory, selectedItem, inventory, setselectedItem }) => {
     const filterSelected = inventory?.find(item => item._id === selectedItem?.id)
 
     const { category, subcategory, product } = useContext(ProductContext)
-    const [chosen, setChosen] = useState({ ...filterSelected })
+    const [chosen, setChosen] = useState({ ...filterSelected, amount: '' })
     const [editing, setEditing] = useState(true)
     const navigate = useNavigate()
 
-    const dontSaveDb = ['total', '_id', 'updatedAt', 'createdAt', '__v']
+    const dontSaveDb = ['total', 'updatedAt', 'createdAt', '__v']
     const deleteItens = (arr, obj) => arr.map(item => delete obj[item])
     deleteItens(dontSaveDb, chosen)
 
-    console.log('esse é o chosen', chosen)
     const endpoint = '/api/inventory/'
 
     const filterSubcategory = subcategory?.filter(item => item.category === chosen.category)
     const filterProduct = product?.filter(item => {
         return item.category === chosen.category &&
             item.subcategory === chosen.subcategory
-    }
+        }
     )
-    console.log()
-    const EditItem = ()  => {
+    const reduce = 
+    console.log('moveeeeee', selectedItem.amount - chosen.amount)
+
+    
+
+    console.log(selectedItem)
+    const moveItem = () => {
+        if(chosen.amount < selectedItem.amount){
+            const reduce = selectedItem.amount - chosen.amount
+            handleEdit(endpoint, filterSelected._id, { ...chosen, amount: reduce}, inventory, setInventory, setEditing)
+        } else if(chosen.amount == selectedItem.amount){
+            console.log('chosen é igual')
+        } else {
+            console.log('chosen é maior')
+        }
+    }
+
+    /*const EditItem = ()  => {
        handleEdit(endpoint, filterSelected._id, { ...chosen }, inventory, setInventory, setEditing)
        navigate('/Estoque')
        setselectedItem('') 
-    }
+    } */
 
     return (
         <div>
             <Subtitle>Editar Item</Subtitle>
-            <SelectItem value={chosen.category} onChange={e => setChosen({ ...chosen, category: e.target.value })}>
+            <SelectItem value={chosen.category} disabled={+true}>
                 <option value=''>Categoria</option>
                 {category !== undefined && category.map(item => (
                     <option key={item._id}>{item.categoryName}</option>
@@ -81,7 +96,7 @@ export const EditInventoryItem = ({ setInventory, selectedItem, inventory, setse
                 placeholder='Preço de Venda'
                 onChange={e => setChosen({ ...chosen, salePrice: e.target.value })}
             />
-            <Button onClick={EditItem}>Editar</Button>
+            <Button onClick={moveItem}>Movimentar</Button>
         </div>
     )
 }

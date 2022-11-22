@@ -27,7 +27,7 @@ export const TableInventory = ({inventory, selectedItem, setselectedItem}) => {
                     <td><input 
                             type='checkbox' 
                             value={item._id} 
-                            onChange={e => setselectedItem({id: e.target.value})}
+                            onChange={e => setselectedItem({id: e.target.value, amount: item.amount})}
                             checked={item._id === selectedItem?.id}
                         />
                     </td>
