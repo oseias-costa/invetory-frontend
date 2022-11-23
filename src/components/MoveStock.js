@@ -5,7 +5,7 @@ import { Button } from "../styles/global/components/Button"
 import { InputItens } from "../styles/global/components/InputItens"
 import { SelectItem } from "../styles/global/components/SelectItem"
 import { Subtitle } from "../styles/global/components/Subtitle"
-import { handleEdit } from "../utils/crud"
+import { handleDelete, handleEdit } from "../utils/crud"
 
 export const MoveStock = ({ setInventory, selectedItem, inventory, setselectedItem }) => {
     const filterSelected = inventory?.find(item => item._id === selectedItem?.id)
@@ -27,15 +27,21 @@ export const MoveStock = ({ setInventory, selectedItem, inventory, setselectedIt
             item.subcategory === chosen.subcategory
         }
     )
-     
 
-    console.log(selectedItem)
-    const moveItem = () => {
-        if(chosen.amount < selectedItem.amount){
+    const checkSelect = selectedItem.amount - chosen.amount
+
+    const moveItem = (event) => {
+        if(checkSelect > 0){
             const reduce = selectedItem.amount - chosen.amount
             handleEdit(endpoint, filterSelected._id, { ...chosen, amount: reduce}, inventory, setInventory, setEditing)
-        } else if(chosen.amount == selectedItem.amount){
-            console.log('chosen é igual')
+            navigate('/Estoque')
+            setselectedItem(null)
+
+        } else if(checkSelect == 0){
+            handleDelete(event, endpoint, inventory, setInventory)
+            navigate('/Estoque')
+            setselectedItem(null)
+            
         } else {
             console.log('chosen é maior')
         }
@@ -56,13 +62,13 @@ export const MoveStock = ({ setInventory, selectedItem, inventory, setselectedIt
                     <option key={item._id}>{item.categoryName}</option>
                 ))}
             </SelectItem>
-            <SelectItem value={chosen.subcategory} onChange={e => setChosen({ ...chosen, subcategory: e.target.value })}>
+            <SelectItem value={chosen.subcategory}  disabled={+true}>
                 <option value=''>Subcategoria</option>
                 {subcategory !== undefined && filterSubcategory.map(item => (
                     <option key={item._id}>{item.subcategory}</option>
                 ))}
             </SelectItem>
-            <SelectItem value={chosen.product} onChange={e => setChosen({ ...chosen, product: e.target.value })}>
+            <SelectItem value={chosen.product} disabled={+true}>
                 <option value=''>Produto</option>
                 {product !== undefined && filterProduct.map(item => (
                     <option key={item._id}>{item.product}</option>
@@ -71,29 +77,30 @@ export const MoveStock = ({ setInventory, selectedItem, inventory, setselectedIt
             <InputItens type='text'
                 value={chosen.size}
                 placeholder='Tamanho'
-                onChange={e => setChosen({ ...chosen, size: e.target.value })}
+                disabled={+true}
             />
             <InputItens type='text'
                 value={chosen.color}
                 placeholder='Cor'
-                onChange={e => setChosen({ ...chosen, color: e.target.value })}
+                disabled={+true}
             />
             <InputItens type='number'
                 value={chosen.amount}
-                placeholder='Qtde'
+                placeholder={selectedItem.amount}
                 onChange={e => setChosen({ ...chosen, amount: e.target.value })}
             />
+            <p>{checkSelect < 0 && 'A quantidade é maior do que tem em estoque'}</p>
             <InputItens type='text'
                 value={chosen.costPrice}
                 placeholder='Preço de Custo'
-                onChange={e => setChosen({ ...chosen, costPrice: e.target.value })}
+                disabled={+true}
             />
             <InputItens type='text'
                 value={chosen.salePrice}
                 placeholder='Preço de Venda'
-                onChange={e => setChosen({ ...chosen, salePrice: e.target.value })}
+                disabled={+true}
             />
-            <Button onClick={moveItem}>Movimentar</Button>
+            <Button value={filterSelected._id} onClick={moveItem}>Movimentar</Button>
         </div>
     )
 }

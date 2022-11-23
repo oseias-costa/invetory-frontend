@@ -11,9 +11,9 @@ import { MoveStock } from "../components/MoveStock";
 
 export const Inventory = () => {
     const { inventory, setInventory } = useContext(ProductContext)  
-    const [ inventorySelected, setInventorySelected] = useState({})
-    const [ selectedItem, setselectedItem] = useState('')
+    const [ selectedItem, setselectedItem] = useState(null)
 
+    console.log('o que tem no', selectedItem)
     return(
         <Section>
             <TopPage>
@@ -22,8 +22,16 @@ export const Inventory = () => {
             </TopPage>
             <NavLink to='/Estoque/'>Estoque</NavLink>
             <NavLink to='/Estoque/Adicionar'>Adicionar</NavLink>
-            <NavLink to='/Estoque/Editar'>Editar</NavLink>
-            <NavLink to='/Estoque/Movimentar'>Movimentar</NavLink>
+            {selectedItem 
+            ?  <NavLink to='/Estoque/Editar'>Editar</NavLink>
+            :  <a href={false}>Editar</a>}
+            {selectedItem 
+            ?  <NavLink to='/Estoque/Movimentar'>Movimentar</NavLink>
+            :  <a href={false}>Movimentar</a>}
+           
+                
+       
+            
                 <Routes>
                     <Route path='/' element={
                         <TableInventory inventory={inventory} selectedItem={selectedItem} setselectedItem={setselectedItem} />} />

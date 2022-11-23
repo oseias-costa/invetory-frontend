@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-   const deleteFromList = (id, arr) => {
+ export const deleteFromList = (id, arr) => {
     const indexCategory = arr.findIndex(item => item._id === id)
       arr.splice(indexCategory, 1)
   }  

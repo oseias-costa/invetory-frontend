@@ -1,8 +1,12 @@
+import { useEffect } from "react";
 import { Subtitle } from "../styles/global/components/Subtitle";
 import { Table } from "../styles/global/components/Table";
 
 export const TableInventory = ({inventory, selectedItem, setselectedItem}) => {
 
+    useEffect(() => {
+        setselectedItem(null)
+    },[])
     return(
         <>
         <Subtitle>Estoque Mensal</Subtitle>
