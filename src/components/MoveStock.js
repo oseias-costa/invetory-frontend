@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { ProductContext } from "../context/ProductContext"
 import { Button } from "../styles/global/components/Button"
 import { InputItens } from "../styles/global/components/InputItens"
@@ -55,6 +55,7 @@ export const MoveStock = ({ setInventory, selectedItem, inventory, setselectedIt
 
     return (
         <div>
+            <NavLink to='/Estoque/'>Voltar</NavLink>
             <Subtitle>Editar Item</Subtitle>
             <SelectItem value={chosen.category} disabled={+true}>
                 <option value=''>Categoria</option>

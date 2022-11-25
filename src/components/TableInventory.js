@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import { Subtitle } from "../styles/global/components/Subtitle";
 import { Table } from "../styles/global/components/Table";
 
@@ -10,6 +11,15 @@ export const TableInventory = ({inventory, selectedItem, setselectedItem}) => {
     return(
         <>
         <Subtitle>Estoque Mensal</Subtitle>
+
+            <NavLink to='/Estoque/Adicionar'>Adicionar</NavLink>
+            {selectedItem 
+            ?  <NavLink to='/Estoque/Editar'>Editar</NavLink>
+            :  <a href={false}>Editar</a>}
+            {selectedItem 
+            ?  <NavLink to='/Estoque/Movimentar'>Movimentar</NavLink>
+            :  <a href={false}>Movimentar</a>}
+              
         <Table>
         <thead>
             <tr>

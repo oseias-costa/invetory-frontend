@@ -1,4 +1,5 @@
 import { useContext, useState } from "react"
+import { NavLink } from "react-router-dom"
 import { ProductContext } from "../context/ProductContext"
 import { Button } from "../styles/global/components/Button"
 import { InputItens } from "../styles/global/components/InputItens"
@@ -25,6 +26,7 @@ export const AddInventoryItem = ({inventory, setInventory}) => {
 
     return(
         <div>
+            <NavLink to='/Estoque/'>Voltar</NavLink>
             <Subtitle>Adicionar Item</Subtitle>
             <SelectItem value={chosen.category} onChange={e => setChosen({category: e.target.value})}>
                 <option value=''>Categoria</option>
