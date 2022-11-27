@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 import { Subtitle } from "../styles/global/components/Subtitle";
 import { Table } from "../styles/global/components/Table";
 
-export const TableStockMovement = ({movement, selectedItem, setSelectedItem}) => {
-
+export const TableStockMovement = ({movement, selectedItem, setSelectedItem, data}) => {
+console.log(data)
     useEffect(() => {
         setSelectedItem(null)
     },[])
@@ -12,7 +12,7 @@ export const TableStockMovement = ({movement, selectedItem, setSelectedItem}) =>
         <>
         <Subtitle>Estoque Mensal</Subtitle>
 
-            <NavLink to='/Estoque/Adicionar'>Adicionar</NavLink>
+            <NavLink to={data[0].add}>Adicionar</NavLink>
             {selectedItem 
             ?  <NavLink to='/Estoque/Editar'>Editar</NavLink>
             :  <a href={false}>Editar</a>}
