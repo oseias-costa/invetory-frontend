@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { ProductContext } from "../context/ProductContext"
 import { Button } from "../styles/global/components/Button"
@@ -12,7 +12,7 @@ export const MoveStock = ({states}) => {
     const filterSelected = state?.find(item => item._id === selectedItem?.id)
 
     const { category, subcategory, product, movement, setMovement } = useContext(ProductContext)
-    const [chosen, setChosen] = useState({ ...filterSelected, amount: 1 })
+    const [chosen, setChosen] = useState({ ...filterSelected })
     const [move, setMove] = useState({...chosen})
     const [editing, setEditing] = useState(true)
     const navigate = useNavigate()
@@ -32,11 +32,12 @@ export const MoveStock = ({states}) => {
         }
     )
 
-    console.log({...move, amount: chosen.amount})
+    console.log(move)
     const checkSelect = selectedItem.amount - chosen.amount
 
     const moveItem = (event) => {
         if(checkSelect > 0){
+
             const reduce = selectedItem.amount - chosen.amount
             handleEdit(endpoint, filterSelected._id, { ...chosen, amount: reduce}, state, setState, setEditing)
             handleCreate(endpointMovement, move, movement, setMovement)
@@ -46,7 +47,7 @@ export const MoveStock = ({states}) => {
         } else if(checkSelect == 0){
             
             handleDelete(event, endpoint, state, setState)
-            handleCreate(endpointMovement, {...move}, movement, setMovement)
+            handleCreate(endpointMovement, move, movement, setMovement)
             navigate('/Estoque')
             setSelectedItem(null)
             
@@ -54,12 +55,6 @@ export const MoveStock = ({states}) => {
             console.log('chosen é maior')
         }
     }
-
-    /*const EditItem = ()  => {
-       handleEdit(endpoint, filterSelected._id, { ...chosen }, inventory, setInventory, setEditing)
-       navigate('/Estoque')
-       setselectedItem('') 
-    } */
 
     return (
         <div>
@@ -96,7 +91,10 @@ export const MoveStock = ({states}) => {
             <InputItens type='number'
                 value={chosen.amount}
                 placeholder={selectedItem.amount}
-                onChange={e => setChosen({ ...chosen, amount: e.target.value })}
+                onChange={e => {
+                    setChosen({ ...chosen, amount: e.target.value })
+                    setMove({ ...chosen, amount: e.target.value })
+                }}
             />
             <p>{checkSelect < 0 && 'A quantidade é maior do que tem em estoque'}</p>
             <InputItens type='text'

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { ProductContext } from "../context/ProductContext"
 import { Button } from "../styles/global/components/Button"
 import { InputItens } from "../styles/global/components/InputItens"
@@ -7,9 +7,11 @@ import { SelectItem } from "../styles/global/components/SelectItem"
 import { Subtitle } from "../styles/global/components/Subtitle"
 import { handleCreate } from "../utils/crud"
 
-export const AddInventoryItem = ({inventory, setInventory}) => {
+export const AddInventoryItem = ({states}) => {
+    const { state, setState } = states
     const { category, subcategory, product } = useContext(ProductContext)
     const [ chosen, setChosen ] = useState({category:'', subcategory:'', product:''})
+    const navigate = useNavigate()
 
     const endpoint = '/api/inventory/'
 
@@ -21,7 +23,8 @@ export const AddInventoryItem = ({inventory, setInventory}) => {
     )
     
     const addNewItem = () => {
-        handleCreate(endpoint, {...chosen}, inventory, setInventory)
+        handleCreate(endpoint, {...chosen}, state, setState)
+        navigate('/Estoque')
     }
 
     return(
