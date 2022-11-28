@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-export const Table = styled.table`
+export const TableStyle = styled.table`
     border-collapse: collapse; 
     border-radius: 5px 5px 0 0;
     overflow: hidden;

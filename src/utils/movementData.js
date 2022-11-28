@@ -6,16 +6,14 @@ export const movementData = [
         edit : '/Estoque/Editar',
         delete : '/Estoque/Excluir'
     },
-    {
-        check : '::',
-        category: 'Categoria',
-        subcategory: 'Subcategoria',
-        product: 'Produto',
-        size: 'Tam',
-        color: 'cor',
-        amount: 'Qtde',
-        priceCost: 'Custo',
-        priceSale: 'Preço',
-        total: 'Total'
-    }
+    [  
+        '::', 'Categoria', 'Subcategoria',
+        'Produto', 'Tam', 'cor',
+        'Qtde', 'Custo', 'Preço', 'Total', 'Descrição', 'Tipo'
+    ],
+    [
+        'category', 'subcategory', 'product',
+        'size', 'color', 'amount', 'costPrice',
+        'salePrice', 'total', 'description', 'type'
+    ]
 ]

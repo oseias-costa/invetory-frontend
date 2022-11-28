@@ -7,7 +7,8 @@ import { SelectItem } from "../styles/global/components/SelectItem"
 import { Subtitle } from "../styles/global/components/Subtitle"
 import { handleEdit } from "../utils/crud"
 
-export const EditInventoryItem = ({ setInventory, selectedItem, inventory, setselectedItem }) => {
+export const EditInventoryItem = ({states, selectedItem}) => {
+    const { setInventory, inventory, setselectedItem } = states
     const filterSelected = inventory?.find(item => item._id === selectedItem?.id)
 
     const { category, subcategory, product } = useContext(ProductContext)
@@ -19,7 +20,6 @@ export const EditInventoryItem = ({ setInventory, selectedItem, inventory, setse
     const deleteItens = (arr, obj) => arr.map(item => delete obj[item])
     deleteItens(dontSaveDb, chosen)
 
-    console.log('esse é o chosen', chosen)
     const endpoint = '/api/inventory/'
 
     const filterSubcategory = subcategory?.filter(item => item.category === chosen.category)
@@ -28,7 +28,7 @@ export const EditInventoryItem = ({ setInventory, selectedItem, inventory, setse
             item.subcategory === chosen.subcategory
     }
     )
-    console.log()
+
     const EditItem = ()  => {
        handleEdit(endpoint, filterSelected._id, { ...chosen }, inventory, setInventory, setEditing)
        navigate('/Estoque')

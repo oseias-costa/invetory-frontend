@@ -1,19 +1,24 @@
+import { useContext, useState } from "react";
+import { ProductContext } from "../context/ProductContext";
+import { Route, Routes } from "react-router-dom";
 import { MdChecklistRtl } from "react-icons/md"
 import { Section } from "../styles/global/components/Section"
 import { TopPage } from "../styles/global/components/TopPage"
-import { useContext, useState } from "react";
-import { ProductContext } from "../context/ProductContext";
-import { TableInventory } from "../components/TableInventory";
+import { inventoryData } from "../utils/inventoryData";
 import { AddInventoryItem } from "../components/AddInventoryItem";
-import { Route, Routes } from "react-router-dom";
 import { EditInventoryItem } from "../components/EditInventoryItem";
 import { MoveStock } from "../components/MoveStock";
+import { Table } from "../components/Table";
 
 export const Inventory = () => {
     const { inventory, setInventory } = useContext(ProductContext)  
-    const [ selectedItem, setselectedItem] = useState(null)
+    const [ selectedItem, setSelectedItem] = useState(null)
 
-    console.log('o que tem no', selectedItem)
+    const states =  {
+        state: inventory, setState: setInventory, 
+        selectedItem, setSelectedItem 
+    }
+    
     return(
         <Section>
             <TopPage>
@@ -23,25 +28,18 @@ export const Inventory = () => {
        
                 <Routes>
                     <Route path='/' element={
-                        <TableInventory inventory={inventory} selectedItem={selectedItem} setselectedItem={setselectedItem} />} />
+                        <Table states={states} data={inventoryData} />} 
+                    />
                     <Route path='/Adicionar' element={
-                        <AddInventoryItem setInventory={setInventory} inventory={inventory} />} />
+                        <AddInventoryItem states={states} />} 
+                    />
                     <Route path='/Editar' element={
-                        <EditInventoryItem
-                            inventory={inventory} 
-                            setInventory={setInventory} 
-                            selectedItem={selectedItem} 
-                            setselectedItem={setselectedItem} />}
-                        />
+                        <EditInventoryItem states={states} />} 
+                    />
                     <Route path='/Movimentar' element={
-                        <MoveStock
-                            inventory={inventory} 
-                            setInventory={setInventory} 
-                            selectedItem={selectedItem} 
-                            setselectedItem={setselectedItem}/>} 
-                        />
+                        <MoveStock states={states} />}  
+                    />
                 </Routes>  
-            
         </Section>
     )
 }

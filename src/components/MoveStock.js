@@ -7,7 +7,8 @@ import { SelectItem } from "../styles/global/components/SelectItem"
 import { Subtitle } from "../styles/global/components/Subtitle"
 import { handleDelete, handleEdit } from "../utils/crud"
 
-export const MoveStock = ({ setInventory, selectedItem, inventory, setselectedItem }) => {
+export const MoveStock = ({ states }) => {
+    const { inventory, setInventory, selectedItem, setselectedItem } = states
     const filterSelected = inventory?.find(item => item._id === selectedItem?.id)
 
     const { category, subcategory, product } = useContext(ProductContext)
@@ -15,6 +16,7 @@ export const MoveStock = ({ setInventory, selectedItem, inventory, setselectedIt
     const [editing, setEditing] = useState(true)
     const navigate = useNavigate()
 
+    console.log(filterSelected)
     const dontSaveDb = ['total', 'updatedAt', 'createdAt', '__v']
     const deleteItens = (arr, obj) => arr.map(item => delete obj[item])
     deleteItens(dontSaveDb, chosen)
@@ -101,7 +103,23 @@ export const MoveStock = ({ setInventory, selectedItem, inventory, setselectedIt
                 placeholder='Preço de Venda'
                 disabled={+true}
             />
-            <Button value={filterSelected._id} onClick={moveItem}>Movimentar</Button>
+            <InputItens type='text'
+                value={chosen.description}
+                placeholder='Descrição'
+                disabled={+false}
+            />
+            <SelectItem 
+                value={chosen.type} 
+                disabled={+false} 
+                onChange={e => setChosen({...chosen, type: e.target.value})}
+            >
+                <option value=''>Tipo</option>
+                <option>Tipo</option>
+                <option>Venda</option>
+                <option>Devolução</option>
+                <option>Perda</option>
+            </SelectItem>
+            <Button value={filterSelected?._id} onClick={moveItem}>Movimentar</Button>
         </div>
     )
 }
