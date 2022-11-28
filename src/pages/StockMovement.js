@@ -11,8 +11,8 @@ export const StockMovement = () => {
     const states = { 
         state: movement, 
         setState: setMovement, 
-        selectedItem: selectedItem, 
-        setSelectedItem: setSelectedItem
+        selectedItem, 
+        setSelectedItem
     }
     
     return(

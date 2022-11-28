@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { ProductContext } from "../context/ProductContext"
 import { Button } from "../styles/global/components/Button"
@@ -7,9 +7,9 @@ import { SelectItem } from "../styles/global/components/SelectItem"
 import { Subtitle } from "../styles/global/components/Subtitle"
 import { handleEdit } from "../utils/crud"
 
-export const EditInventoryItem = ({states, selectedItem}) => {
-    const { setInventory, inventory, setselectedItem } = states
-    const filterSelected = inventory?.find(item => item._id === selectedItem?.id)
+export const EditInventoryItem = ({states}) => {
+    const { setState, state, setselectedItem, selectedItem } = states
+    const filterSelected = state?.find(item => item._id === selectedItem?.id)
 
     const { category, subcategory, product } = useContext(ProductContext)
     const [chosen, setChosen] = useState({ ...filterSelected })
@@ -30,7 +30,7 @@ export const EditInventoryItem = ({states, selectedItem}) => {
     )
 
     const EditItem = ()  => {
-       handleEdit(endpoint, filterSelected._id, { ...chosen }, inventory, setInventory, setEditing)
+       handleEdit(endpoint, filterSelected._id, { ...chosen }, state, setState, setEditing)
        navigate('/Estoque')
        setselectedItem('') 
     }
