@@ -93,7 +93,7 @@ export const MoveStock = ({states}) => {
                 placeholder={selectedItem.amount}
                 onChange={e => {
                     setChosen({ ...chosen, amount: e.target.value })
-                    setMove({ ...chosen, amount: e.target.value })
+                    setMove({ ...chosen, ...move, amount: e.target.value })
                 }}
             />
             <p>{checkSelect < 0 && 'A quantidade é maior do que tem em estoque'}</p>
