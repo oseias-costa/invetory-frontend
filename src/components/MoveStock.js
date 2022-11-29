@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { ProductContext } from "../context/ProductContext"
 import { Button } from "../styles/global/components/Button"
@@ -10,17 +10,21 @@ import { handleCreate, handleDelete, handleEdit } from "../utils/crud"
 export const MoveStock = ({states}) => {
     const { state, setState, selectedItem, setSelectedItem } = states
     const filterSelected = state?.find(item => item._id === selectedItem?.id)
-
+    
     const { category, subcategory, product, movement, setMovement } = useContext(ProductContext)
-    const [chosen, setChosen] = useState({ ...filterSelected })
-    const [move, setMove] = useState({...chosen})
+    const [chosen, setChosen] = useState({ ...filterSelected})
+    const [move, setMove] = useState({...chosen })
     const [editing, setEditing] = useState(true)
     const navigate = useNavigate()
-
-    const dontSaveDb = ['total', 'updatedAt', 'createdAt', '__v', '_id']
+    
+    const dontSaveDb = ['updatedAt', 'createdAt', '__v', '_id']
     const deleteItens = (arr, obj) => arr.map(item => delete obj[item])
     deleteItens(dontSaveDb, chosen)
     deleteItens(dontSaveDb, move)
+    
+    useState(() => {
+        setMove({...move, total: move.salePrice * move.amount})
+    },[chosen])
 
     const endpoint = '/api/inventory/'
     const endpointMovement = '/api/movement'
@@ -31,7 +35,7 @@ export const MoveStock = ({states}) => {
             item.subcategory === chosen.subcategory
         }
     )
-
+    
     console.log(move)
     const checkSelect = selectedItem.amount - chosen.amount
 
@@ -92,8 +96,8 @@ export const MoveStock = ({states}) => {
                 value={chosen.amount}
                 placeholder={selectedItem.amount}
                 onChange={e => {
-                    setChosen({ ...chosen, amount: e.target.value })
-                    setMove({ ...chosen, ...move, amount: e.target.value })
+                    setChosen({ ...chosen, amount: Number(e.target.value)})
+                    setMove({ ...chosen, ...move, amount: Number(e.target.value)})
                 }}
             />
             <p>{checkSelect < 0 && 'A quantidade é maior do que tem em estoque'}</p>
