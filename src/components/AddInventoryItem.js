@@ -21,6 +21,8 @@ export const AddInventoryItem = ({states}) => {
         }
     }, [chosen.salePrice, chosen.amount])
 
+    console.log(chosen)
+
     const endpoint = '/api/inventory/'
 
     const filterSubcategory = subcategory?.filter(item => item.category === chosen.category)

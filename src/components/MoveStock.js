@@ -21,10 +21,6 @@ export const MoveStock = ({states}) => {
     const deleteItens = (arr, obj) => arr.map(item => delete obj[item])
     deleteItens(dontSaveDb, chosen)
     deleteItens(dontSaveDb, move)
-    
-    useState(() => {
-        setMove({...move, total: move.salePrice * move.amount})
-    },[chosen])
 
     const endpoint = '/api/inventory/'
     const endpointMovement = '/api/movement'
@@ -97,7 +93,8 @@ export const MoveStock = ({states}) => {
                 placeholder={selectedItem.amount}
                 onChange={e => {
                     setChosen({ ...chosen, amount: Number(e.target.value)})
-                    setMove({ ...chosen, ...move, amount: Number(e.target.value)})
+                    setMove({ ...chosen, ...move, amount: Number(e.target.value),
+                        total: move.salePrice * e.target.value })
                 }}
             />
             <p>{checkSelect < 0 && 'A quantidade é maior do que tem em estoque'}</p>
