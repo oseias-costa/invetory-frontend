@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { ProductContext } from "../context/ProductContext"
 import { Button } from "../styles/global/components/Button"
@@ -10,8 +10,16 @@ import { handleCreate } from "../utils/crud"
 export const AddInventoryItem = ({states}) => {
     const { state, setState } = states
     const { category, subcategory, product } = useContext(ProductContext)
-    const [ chosen, setChosen ] = useState({category:'', subcategory:'', product:''})
+    const [ chosen, setChosen ] = useState({ category:'', subcategory:'', product:''})
     const navigate = useNavigate()
+
+    useEffect(()=> {
+        if(!chosen.salePrice || !chosen.amount){
+            setChosen({...chosen, total: ''})
+        } else {
+            setChosen({...chosen, total: chosen?.amount * chosen?.salePrice})
+        }
+    }, [chosen.salePrice, chosen.amount])
 
     const endpoint = '/api/inventory/'
 
@@ -73,6 +81,11 @@ export const AddInventoryItem = ({states}) => {
                 value={chosen.salePrice} 
                 placeholder='Preço de Venda'
                 onChange={e => setChosen({...chosen, salePrice: e.target.value})} 
+            />
+            <InputItens type='text' 
+                value={chosen.total} 
+                placeholder='Total' 
+                disabled={+true}
             />
             <Button onClick={addNewItem}>Adicionar</Button>
         </div>

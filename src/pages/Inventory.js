@@ -25,7 +25,6 @@ export const Inventory = () => {
                 <MdChecklistRtl />
                 <h2>Estoque</h2>
             </TopPage> 
-       
                 <Routes>
                     <Route path='/' element={
                         <Table states={states} data={inventoryData} />} 
