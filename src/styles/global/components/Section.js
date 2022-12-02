@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Section = styled.section`
 border-radius: 0.4em;
 background-color: #2F2F2F;
-border: 0.1em solid #373737;
+border: 0.1em solid #595958;
 margin: 2em 0;
 padding: 2em;
 
