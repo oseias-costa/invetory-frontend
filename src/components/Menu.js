@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom"
 import { MenuStyle } from "../styles/menu/MenuStyle"
-import logo from '../styles/menu/icons/logo-menu.png'
 import { LinkMenu } from "../styles/menu/LinkMenu"
 import { MdDashboard } from 'react-icons/md'
 import { GiSofa } from  'react-icons/gi'
@@ -11,21 +10,19 @@ import { MdShoppingCart } from 'react-icons/md'
 export const Menu = () => {
     return(
         <MenuStyle>
-            <img src={logo} />
-            <span>Menu</span>
             <nav>
                 <ul>
                     <LinkMenu>
-                        <NavLink to='/Inicio'><MdDashboard />Início</NavLink>
+                        <NavLink to='/Inicio'><MdDashboard /><p>Início</p></NavLink>
                     </LinkMenu>
                     <LinkMenu>
-                        <NavLink to='/Produtos'><GiSofa />Produtos</NavLink>
+                        <NavLink to='/Produtos'><GiSofa /><p>Produtos</p></NavLink>
                     </LinkMenu>
                     <LinkMenu>
-                        <NavLink to='/Estoque'><MdChecklistRtl />Estoque</NavLink>
+                        <NavLink to='/Estoque'><MdChecklistRtl /><p>Estoque</p></NavLink>
                     </LinkMenu>
                     <LinkMenu>
-                        <NavLink to='/Vendas'><MdShoppingCart />Vendas</NavLink>
+                        <NavLink to='/Vendas'><MdShoppingCart /><p>Vendas</p></NavLink>
                     </LinkMenu>
                 </ul>
             </nav>

@@ -1,11 +1,9 @@
 import styled from 'styled-components'
 
 export const MenuStyle = styled.div`
-    width: 11em;
-    border-radius: 0.4em;
+    width: 4em;
     background-color: #2F2F2F;
     border: 0.1em solid #373737;
-    margin: 2em;
 
 
     img {

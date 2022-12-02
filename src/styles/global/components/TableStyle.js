@@ -5,6 +5,7 @@ export const TableStyle = styled.table`
     border-collapse: collapse; 
     border-radius: 5px 5px 0 0;
     overflow: hidden;
+    font-size: 0.85em;
 
     thead {
         background-color: #40403F;
@@ -24,11 +25,10 @@ export const TableStyle = styled.table`
     }
 
     td{
+        
         font-size: 0.9em;
         font-weight: 200;    
         padding: 0.5em 1em;   
-        border: 0.1em solid #40403F;
-    }
 
-    
+    }
 `

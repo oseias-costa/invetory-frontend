@@ -15,7 +15,11 @@ export const LinkMenu = styled.li`
     svg{
         height: 20px;
         width: 20px;
-        margin-right: 1.4em;
+        margin-right: 1em;
+        margin-bottom: 1.5em;
+        position: relative;
+        bottom: -0.8em;
+        left: -0.5em;
     }
 
     a {
@@ -25,9 +29,19 @@ export const LinkMenu = styled.li`
         display: flex;
         align-items: center;
         }
+    p{
+        display: none;
+        background-color: #2F2F2F;
+        border: 0.1em solid #373737;
+        padding: 0.5em;
+        border-radius: 0.4em;
+    }
 
     & :hover{
         color: #04D939;
+        p{
+            display: block;
+        }
     }
 
     .active{
