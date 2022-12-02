@@ -1,13 +1,13 @@
 import { useContext, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { ProductContext } from "../context/ProductContext"
-import { Button } from "../styles/global/components/Button"
-import { InputItens } from "../styles/global/components/InputItens"
-import { ItemEdit } from "../styles/global/components/ItemEdit"
-import { SelectItem } from "../styles/global/components/SelectItem"
-import { SpanItem } from "../styles/global/components/SpanItem"
+import { Button, CancelButton } from "../styles/global/components/Button"
 import { Subtitle } from "../styles/global/components/Subtitle"
 import { handleEdit } from "../utils/crud"
+import { IoChevronBackSharp } from 'react-icons/io5'
+import { BodyItem, BoxInputs, InputItens, 
+         ItemEdit, SelectItem, SpanItem, TopEdit 
+        } from "../styles/global/components/BodyItem"
 
 export const EditInventoryItem = ({states}) => {
     const { setState, state, setselectedItem, selectedItem } = states
@@ -38,10 +38,13 @@ export const EditInventoryItem = ({states}) => {
     }
 
     return (
-        <div>
-            <NavLink to='/Estoque/'>Voltar</NavLink>
-            <Subtitle>Editar Item</Subtitle>
+        <BodyItem>
+            <TopEdit>
+                <NavLink to='/Estoque/'><IoChevronBackSharp /></NavLink>
+                <Subtitle>Editar Item</Subtitle>
+            </TopEdit>
 
+            <BoxInputs>
             <ItemEdit>
                 <SpanItem>Categoria</SpanItem>
                 <SelectItem value={chosen.category} onChange={e => setChosen({ ...chosen, category: e.target.value })}>
@@ -113,7 +116,11 @@ export const EditInventoryItem = ({states}) => {
                     onChange={e => setChosen({ ...chosen, salePrice: e.target.value })}
                 />
             </ItemEdit>
+            </BoxInputs>
             <Button onClick={EditItem}>Editar</Button>
-        </div>
+            <NavLink to='/Estoque'>
+                <CancelButton>Cancelar</CancelButton>
+            </NavLink>
+        </BodyItem>
     )
 }

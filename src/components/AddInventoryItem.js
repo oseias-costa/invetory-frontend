@@ -1,9 +1,8 @@
 import { useContext, useEffect, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 import { ProductContext } from "../context/ProductContext"
+import { BodyItem, InputItens, SelectItem } from "../styles/global/components/BodyItem"
 import { Button } from "../styles/global/components/Button"
-import { InputItens } from "../styles/global/components/InputItens"
-import { SelectItem } from "../styles/global/components/SelectItem"
 import { Subtitle } from "../styles/global/components/Subtitle"
 import { handleCreate } from "../utils/crud"
 
@@ -38,7 +37,7 @@ export const AddInventoryItem = ({states}) => {
     }
 
     return(
-        <div>
+        <BodyItem>
             <NavLink to='/Estoque/'>Voltar</NavLink>
             <Subtitle>Adicionar Item</Subtitle>
             <SelectItem value={chosen.category} onChange={e => setChosen({category: e.target.value})}>
@@ -90,6 +89,6 @@ export const AddInventoryItem = ({states}) => {
                 disabled={+true}
             />
             <Button onClick={addNewItem}>Adicionar</Button>
-        </div>
+        </BodyItem>
     )
 }
