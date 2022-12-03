@@ -29,6 +29,7 @@ export const TableStyle = styled.table`
         font-size: 0.9em;
         font-weight: 200;    
         padding: 0.5em 1em;   
+        border: 1px solid #40403F;
 
     }
 `
