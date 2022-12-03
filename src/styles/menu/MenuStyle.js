@@ -5,6 +5,10 @@ export const MenuStyle = styled.div`
     background-color: #2F2F2F;
     border: 0.1em solid #373737;
 
+    @media (max-width: 768px){
+        width: auto;
+
+    }
 
     img {
         width: 120px;

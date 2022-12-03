@@ -12,6 +12,10 @@ export const LinkMenu = styled.li`
     position: relative;
     right: 0.1em;
 
+    @media (max-width: 768px){
+        width: auto;
+    }
+
     svg{
         height: 20px;
         width: 20px;
