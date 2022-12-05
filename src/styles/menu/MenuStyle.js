@@ -1,11 +1,6 @@
 import styled from 'styled-components'
 
 export const MenuStyle = styled.div`
-    width: 4em;
-    background-color: #2F2F2F;
-    border: 0.1em solid #373737;
-    position: fixed;
-    left: 0;
     z-index: 100;
 
     img {
@@ -24,10 +19,7 @@ export const MenuStyle = styled.div`
     }
     
     @media (max-width: 768px){
-        position: fixed;
-        left: 0;
-        bottom: 0;
-
+        
         nav > ul {
             display: flex;
             justify-content: center;

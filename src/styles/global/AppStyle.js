@@ -9,8 +9,11 @@ export const AppStyle = styled.div`
     padding-left: 4em;
 
     nav {
+        width: 4em;
         position: fixed;
         left: 0;
+        background-color: #2F2F2F;
+        border-left: 0.1em solid #595958;
     }
 
     @media (max-width: 768px){
@@ -20,6 +23,8 @@ export const AppStyle = styled.div`
         nav {
             bottom: 0;
             width: 100vw;
+            border-left: 0.1em solid #595958;
+            border-bottom: 0.1em solid #595958;
         }
         
     }
