@@ -12,9 +12,6 @@ export const LinkMenu = styled.li`
     position: relative;
     right: 0.1em;
 
-    @media (max-width: 768px){
-        width: auto;
-    }
 
     svg{
         height: 20px;
@@ -22,8 +19,6 @@ export const LinkMenu = styled.li`
         margin-right: 1em;
         margin-bottom: 1.5em;
         position: relative;
-        bottom: -0.8em;
-        left: -0.5em;
     }
 
     a {
@@ -55,4 +50,34 @@ export const LinkMenu = styled.li`
         position: relative;
         right: 2.2em;
     }
+
+    @media (max-width: 768px){
+        padding-left: 0;
+        margin-top: 1em;
+        display: block;
+        color: #ABABAB;
+        font-weight: bold;
+        align-items: center;
+        border-left: none;
+        position: static;
+
+        svg{
+        bottom: -0.4em;
+        left: 1.8em;
+        }
+
+        & :hover{
+        color: #04D939;
+
+        p{
+            display: none;
+        }
+
+        .active{
+        border-left: none;
+        right: 3em;
+        }
+    }
+
+}
 `

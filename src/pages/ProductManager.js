@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useGetAll } from '../hooks/useGetAll';
 import { Category } from '../components/Category';
 import { Subcategory } from '../components/Subcategory';
 import { Product } from '../components/Product';

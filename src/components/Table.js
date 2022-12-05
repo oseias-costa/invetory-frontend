@@ -31,7 +31,7 @@ export const Table = ({ states, data }) => {
             </tr>
         </thead>
         <tbody>
-            {state && state.map(item => (
+            {state && state.map((item, index) => (
                 <tr key={item._id}>
                     <td><input 
                             type='checkbox' 
@@ -41,7 +41,7 @@ export const Table = ({ states, data }) => {
                         />
                     </td>
                     {data && data[2].map((content, index) => (
-                        <td key={index}>{item[content]}</td>
+                        <td key={index} data-title={data[1][index + 1]}>{item[content]}</td>
                     ))}
                 </tr>
             ))}

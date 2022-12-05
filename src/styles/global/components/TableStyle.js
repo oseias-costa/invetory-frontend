@@ -32,4 +32,25 @@ export const TableStyle = styled.table`
         border: 1px solid #40403F;
 
     }
+    @media (max-width: 768px) {
+        tr td{
+            width: 70vw;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: end;
+            position: relative;
+
+            &::before{
+                content: attr(data-title);
+                position: absolute;
+                left: 15px;
+                display: block;
+                font-weight: bold;
+            }
+        }
+        thead {
+            display: none;
+        }
+
+    }
 `
