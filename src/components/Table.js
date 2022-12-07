@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { StockMenu } from "../styles/global/components/StockMenu";
 import { Subtitle } from "../styles/global/components/Subtitle";
 import { TableStyle } from "../styles/global/components/TableStyle";
 
@@ -12,15 +13,15 @@ export const Table = ({ states, data }) => {
     return(
         <>
         <Subtitle>Estoque Mensal</Subtitle>
-
-            <NavLink to={data[0].add}>Adicionar</NavLink>
-            {selectedItem 
-            ?  <NavLink to={data[0].edit}>Editar</NavLink>
-            :  <p>Editar</p>}
-            {selectedItem 
-            ?  <NavLink to={data[0].delete}>Movimentar</NavLink>
-            :  <p>Movimentar</p>}
-              
+            <StockMenu>
+                <NavLink to={data[0].add}>Adicionar</NavLink>
+                {selectedItem 
+                ?  <NavLink to={data[0].edit}>Editar</NavLink>
+                :  <p>Editar</p>}
+                {selectedItem 
+                ?  <NavLink to={data[0].delete}>Movimentar</NavLink>
+                :  <p>Movimentar</p>}
+            </StockMenu>  
         <TableStyle>
         <thead>
             <tr>
