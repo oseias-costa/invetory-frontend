@@ -4,7 +4,7 @@ export const Section = styled.section`
     border-radius: 0.4em;
     background-color: #2F2F2F;
     border: 0.1em solid #373737;
-    margin: 2em 0;
+    margin: 2em ;
     padding: 2em;
 
     h2{
@@ -15,4 +15,5 @@ export const Section = styled.section`
 
 export const ProductColumns = styled.div`
     display: flex;
+    flex-wrap: wrap;
 `
